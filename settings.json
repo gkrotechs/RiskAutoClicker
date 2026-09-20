@@ -1,0 +1,19 @@
+{
+  "version": "v1.0.0",
+  "theme": "light",
+  "accent_color": "#18181b",
+  "window_opacity": 0.96,
+  "blur_effect": true,
+  "always_on_top": false,
+  "sound_effect": "switch",
+  "sound_volume": 60,
+  "show_notifications": true,
+  "auto_start": false,
+  "hotkey": "Ctrl+Y",
+  "trigger_mode": "Toggle",
+  "panic_hotkey": "F8",
+  "stop_on_mouse_move": false,
+  "click_limit_enabled": false,
+  "click_limit": 1000,
+  "active_preset": "default"
+}

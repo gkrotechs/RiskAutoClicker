@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Auto Clicker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+    <!-- Custom Draggable Title Bar (Top only) -->
+    <header class="titlebar pywebview-drag-region">
+        <div class="titlebar-left no-drag">
+            <div class="nav-icons-container" id="nav-icons-bar">
+                <div class="nav-indicator-pill" id="top-nav-pill"></div>
+                <button class="nav-btn" id="nav-gear" data-tab="settings" title="Settings">
+                    <span class="icon-slot" data-icon="gear"></span>
+                </button>
+                <button class="nav-btn active" id="nav-mouse" data-tab="clicker" title="Clicker">
+                    <span class="icon-slot" data-icon="mouse"></span>
+                </button>
+                <button class="nav-btn" id="nav-layers" data-tab="layers" title="Macros">
+                    <span class="icon-slot" data-icon="layers"></span>
+                </button>
+                <button class="nav-btn" id="nav-circle" data-tab="target" title="Target">
+                    <span class="icon-slot" data-icon="circle"></span>
+                </button>
+                <button class="nav-btn" id="nav-menu" data-tab="presets-menu" title="Presets">
+                    <span class="icon-slot" data-icon="menu"></span>
+                </button>
+            </div>
+        </div>
+
+        <div class="app-title-text">Risk Auto Clicker</div>
+
+        <div class="titlebar-right no-drag">
+            <button class="window-control-btn" id="btn-pin" title="Always on Top">
+                <span class="icon-slot" data-icon="pin"></span>
+            </button>
+            <button class="window-control-btn" id="btn-minimize" title="Minimize">
+                <span class="icon-slot" data-icon="minimize"></span>
+            </button>
+            <button class="window-control-btn close-btn" id="btn-close" title="Close">
+                <span class="icon-slot" data-icon="close"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main View Switcher Container -->
+    <main class="main-wrapper">
+        <div class="views-wrapper">
+
+            <!-- TAB 1: Main Clicker (Compact Bar View) -->
+            <section class="tab-pane active" id="view-clicker">
+                <div class="compact-container">
+                    <!-- Row 1: Speed, Unit, Mode, Hotkey, Trigger -->
+                    <div class="pill-row">
+                        <!-- Pill 1: Speed, Unit, Mode -->
+                        <div class="pill-card">
+                            <input type="number" id="input-cps" class="pill-num-input" value="100" min="1" max="1000" step="1">
+                            <span class="pill-label">Clicks Per</span>
+                            <div class="pill-divider"></div>
+                            <div class="pill-select-wrapper" id="select-rate-unit" data-dropdown="unit">
+                                <span class="pill-select-text" id="val-rate-unit">Second</span>
+                                <span class="pill-select-arrow" data-icon="chevronDown"></span>
+                            </div>
+                            <div class="pill-divider"></div>
+                            <div class="pill-select-wrapper" id="select-rate-mode" data-dropdown="mode">
+                                <span class="pill-select-text" id="val-rate-mode">Rate</span>
+                                <span class="pill-select-arrow" data-icon="chevronDown"></span>
+                            </div>
+                        </div>
+
+                        <!-- Pill 2: Hotkey & Trigger Mode -->
+                        <div class="pill-card">
+                            <div class="pill-hotkey-record" id="btn-record-hotkey" title="Click to change hotkey">
+                                <span class="hotkey-name" id="val-hotkey">Ctrl + Y</span>
+                                <span style="font-size: 11px; color: #94a3b8;">×</span>
+                                <span class="icon-slot" data-icon="keyboard"></span>
+                            </div>
+                            <div class="pill-divider"></div>
+                            <div class="pill-select-wrapper" id="select-trigger-mode" data-dropdown="trigger">
+                                <span class="pill-select-text" id="val-trigger-mode">Toggle</span>
+                                <span class="pill-select-arrow" data-icon="chevronDown"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Row 2: Input Type, Mouse Buttons, Duty Cycle, Randomization -->
+                    <div class="pill-row">
+                        <!-- Pill 1: Input Type (Mouse vs Keyboard) -->
+                        <div class="pill-card">
+                            <div class="pill-button-group">
+                                <button class="segment-btn active" id="btn-type-mouse" data-input-type="Mouse" title="Mouse Clicker">
+                                    <span class="icon-slot" data-icon="mouse"></span>
+                                </button>
+                                <button class="segment-btn" id="btn-type-keyboard" data-input-type="Keyboard" title="Keyboard Key Presser">
+                                    <span class="icon-slot" data-icon="keyboard"></span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Pill 2: Mouse Buttons (LEFT, MIDDLE, RIGHT) -->
+                        <div class="pill-card">
+                            <div class="pill-button-group" id="group-mouse-btn">
+                                <button class="segment-btn active" data-btn="LEFT">LEFT</button>
+                                <button class="segment-btn" data-btn="MIDDLE">MIDDLE</button>
+                                <button class="segment-btn" data-btn="RIGHT">RIGHT</button>
+                            </div>
+                        </div>
+
+                        <!-- Pill 3: Duty Cycle -->
+                        <div class="pill-card">
+                            <span class="pill-label">Duty Cycle</span>
+                            <input type="number" id="input-duty-cycle" class="pill-num-input" value="45" min="5" max="95" step="1" style="width: 30px; padding: 0;">
+                            <span style="font-size: 12px; font-weight: 700; color: var(--text-primary); margin-right: 4px;">%</span>
+                        </div>
+
+                        <!-- Pill 4: Speed Randomization -->
+                        <div class="pill-card">
+                            <span class="pill-label">Randomization</span>
+                            <input type="number" id="input-randomization" class="pill-num-input" value="35" min="0" max="100" step="1" style="width: 30px; padding: 0;">
+                            <span style="font-size: 12px; font-weight: 700; color: var(--text-primary); margin-right: 4px;">%</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 2: Settings & Sub-tabs (Expanded View) -->
+            <section class="tab-pane" id="view-settings">
+                <div class="expanded-container">
+                    <!-- Left Sidebar with fluid sliding indicator -->
+                    <aside class="sidebar-panel">
+                        <nav class="sidebar-nav" id="sidebar-nav-list">
+                            <div class="sidebar-indicator-pill" id="sidebar-indicator"></div>
+                            <button class="sidebar-item active" data-subpane="general">
+                                <span class="icon-slot" data-icon="info"></span>
+                                <span>General</span>
+                            </button>
+                            <button class="sidebar-item" data-subpane="behavior">
+                                <span class="icon-slot" data-icon="eye"></span>
+                                <span>Behavior</span>
+                            </button>
+                            <button class="sidebar-item" data-subpane="appearance">
+                                <span class="icon-slot" data-icon="sun"></span>
+                                <span>Appearance</span>
+                            </button>
+                            <button class="sidebar-item" data-subpane="keybinds">
+                                <span class="icon-slot" data-icon="keybinds"></span>
+                                <span>Keybinds</span>
+                            </button>
+                            <button class="sidebar-item" data-subpane="process">
+                                <span class="icon-slot" data-icon="windowApp"></span>
+                                <span>Process List</span>
+                            </button>
+                            <button class="sidebar-item" data-subpane="presets">
+                                <span class="icon-slot" data-icon="bookmark"></span>
+                                <span>Presets</span>
+                            </button>
+                            <button class="sidebar-item" data-subpane="maintenance">
+                                <span class="icon-slot" data-icon="wrench"></span>
+                                <span>Maintenance</span>
+                            </button>
+                        </nav>
+
+                        <!-- Ko-fi Support Card -->
+                        <div class="kofi-card" id="btn-kofi" title="Support Risk Auto Clicker on Ko-fi">
+                            <span class="kofi-title">Support me on</span>
+                            <div class="kofi-badge-inner">
+                                <img src="assets/kofi_full.png" alt="Ko-fi" class="kofi-logo-img">
+                            </div>
+                        </div>
+                    </aside>
+
+                    <!-- Right Subpane Content Panel -->
+                    <div class="content-panel">
+                        <!-- Subpane: General -->
+                        <div class="settings-subpane active" id="subpane-general">
+                            <!-- About Card -->
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">About</div>
+                                    <div class="card-subtitle">App details and links.</div>
+                                </div>
+
+                                <div style="display: flex; align-items: center; justify-content: space-between; margin-top: 4px;">
+                                    <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Support</span>
+                                    <div class="social-links-row">
+                                        <button class="social-btn" id="btn-coffee" title="Support on Ko-fi">
+                                            <img src="assets/kofi_cup.png" alt="Ko-fi" style="height: 16px; width: auto; object-fit: contain; pointer-events: none;">
+                                            <span>Support on Ko-fi</span>
+                                        </button>
+                                        <button class="social-btn" id="btn-github" title="GitHub">
+                                            <span class="icon-slot" data-icon="github"></span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--border-subtle);">
+                                    <span style="font-size: 13.5px; font-weight: 700; color: var(--text-primary);">Version <span style="font-weight: 500; color: var(--text-muted);">v1.0.0</span></span>
+                                    <button class="action-btn" id="btn-check-updates">Check for Updates</button>
+                                </div>
+                            </div>
+
+                            <!-- Usage Statistics Card -->
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">Usage</div>
+                                    <div class="card-subtitle">Saved locally on your PC.</div>
+                                </div>
+
+                                <div class="stats-grid">
+                                    <div class="stat-item">
+                                        <div class="stat-label">TOTAL CLICKS</div>
+                                        <div class="stat-value" id="stat-total-clicks">0</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-label">CLICK TIME</div>
+                                        <div class="stat-value" id="stat-total-time">0s</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-label">CPU USAGE</div>
+                                        <div class="stat-value" id="stat-cpu-usage">1.2%</div>
+                                    </div>
+                                    <div class="stat-item">
+                                        <div class="stat-label">SESSIONS</div>
+                                        <div class="stat-value" id="stat-sessions">0</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subpane: Behavior -->
+                        <div class="settings-subpane" id="subpane-behavior">
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">Limits & Safety</div>
+                                    <div class="card-subtitle">Auto-stop triggers and safety settings.</div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <div class="setting-name">Stop on Mouse Movement</div>
+                                        <div class="setting-desc">Pause clicking when you move the mouse</div>
+                                    </div>
+                                    <div class="toggle-switch" id="toggle-stop-mouse"><div class="toggle-knob"></div></div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <div class="setting-name">Click Limit</div>
+                                        <div class="setting-desc">Stop after reaching a set number of clicks</div>
+                                    </div>
+                                    <input type="number" id="input-click-limit" class="custom-input" value="1000" style="width: 90px; text-align: center;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subpane: Appearance -->
+                        <div class="settings-subpane" id="subpane-appearance">
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">Appearance</div>
+                                    <div class="card-subtitle">Theme and transition animations.</div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <div class="setting-name">Theme</div>
+                                        <div class="setting-desc">Choose light or dark mode</div>
+                                    </div>
+                                    <div class="custom-select-wrap" id="wrap-theme">
+                                        <button class="custom-select-btn" id="btn-select-theme" type="button">
+                                            <span class="select-current-text" id="label-theme">Light Theme</span>
+                                            <svg class="select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </button>
+                                        <div class="custom-select-menu" id="menu-theme">
+                                            <div class="custom-select-item selected" data-value="light">Light (Default)</div>
+                                            <div class="custom-select-item" data-value="dark">Dark Theme</div>
+                                            <div class="custom-select-item" data-value="blue">Light Blue Theme</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <div class="setting-name">Tab Animations</div>
+                                        <div class="setting-desc">Choose animation style</div>
+                                    </div>
+                                    <div class="custom-select-wrap" id="wrap-anim-physics">
+                                        <button class="custom-select-btn" id="btn-select-anim" type="button">
+                                            <span class="select-current-text" id="label-anim">Spring (Smooth)</span>
+                                            <svg class="select-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                <polyline points="6 9 12 15 18 9"></polyline>
+                                            </svg>
+                                        </button>
+                                        <div class="custom-select-menu" id="menu-anim">
+                                            <div class="custom-select-item selected" data-value="spring">Spring (Smooth)</div>
+                                            <div class="custom-select-item" data-value="smooth">Cubic (Standard)</div>
+                                            <div class="custom-select-item" data-value="snappy">Fast (Instant)</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subpane: Keybinds -->
+                        <div class="settings-subpane" id="subpane-keybinds">
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">Shortcuts</div>
+                                    <div class="card-subtitle">Global hotkeys for Windows.</div>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <div class="setting-name">Toggle Clicker</div>
+                                        <div class="setting-desc">Start or stop clicking</div>
+                                    </div>
+                                    <button class="action-btn" id="btn-rebind-main">
+                                        <span class="icon-slot" data-icon="keyboard"></span>
+                                        <span id="keybind-main-display">Ctrl + Y</span>
+                                    </button>
+                                </div>
+                                <div class="setting-row">
+                                    <div class="setting-info">
+                                        <div class="setting-name">Panic Stop</div>
+                                        <div class="setting-desc">Instantly stop all clicking</div>
+                                    </div>
+                                    <button class="action-btn" id="btn-rebind-panic">
+                                        <span>F8</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subpane: Process List -->
+                        <div class="settings-subpane" id="subpane-process">
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">Target App</div>
+                                    <div class="card-subtitle">Only click when this window is active.</div>
+                                </div>
+                                <div style="display: flex; gap: 8px; align-items: center;">
+                                    <div class="search-input-wrap">
+                                        <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                        </svg>
+                                        <input type="text" id="search-process" placeholder="Search open windows..." class="custom-input">
+                                    </div>
+                                    <button class="action-btn" id="btn-refresh-processes">Refresh</button>
+                                </div>
+                                <div id="process-list-container" style="max-height: 200px; overflow-y: auto; overflow-x: hidden; display: flex; flex-direction: column; gap: 6px; border: 1px solid var(--border-color); border-radius: 10px; padding: 6px; background: var(--bg-card-subtle);">
+                                    <div style="padding: 10px; text-align: center; color: var(--text-muted); font-size: 13px;">Loading active windows...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subpane: Presets -->
+                        <div class="settings-subpane" id="subpane-presets">
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">Saved Presets</div>
+                                    <div class="card-subtitle">Saved clicking profiles.</div>
+                                </div>
+                                <div id="presets-list-container" style="display: flex; flex-direction: column; gap: 8px;">
+                                    <!-- Populated dynamically -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subpane: Maintenance -->
+                        <div class="settings-subpane" id="subpane-maintenance">
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">Timer Status</div>
+                                    <div class="card-subtitle">Windows multimedia timer.</div>
+                                </div>
+                                <div style="display: flex; align-items: center; justify-content: space-between;">
+                                    <div style="font-size: 13px; color: #16a34a; font-weight: 600; display: flex; align-items: center; gap: 6px;">
+                                        <span class="status-indicator-dot active"></span>
+                                        <span>1ms Timer Active</span>
+                                    </div>
+                                    <button class="action-btn" id="btn-reset-stats-confirm" style="color: #ef4444;">Reset Stats</button>
+                                </div>
+                            </div>
+
+                            <!-- Click Sandbox -->
+                            <div class="card animate-card">
+                                <div class="card-header-group">
+                                    <div class="card-title">CPS Test</div>
+                                    <div class="card-subtitle">Click in the box or turn on the clicker to test speed.</div>
+                                </div>
+                                <div class="tester-box" id="click-tester-box">
+                                    <div style="font-size: 14px; font-weight: 600; color: #64748b;">Click Here to Test</div>
+                                    <div style="font-size: 28px; font-weight: 800; color: var(--text-primary); margin: 6px 0;" id="tester-cps-val">0</div>
+                                    <div style="font-size: 12px; color: #94a3b8;">Clicks Per Second (Peak: <span id="tester-max-cps">0</span> CPS | Total: <span id="tester-total-clicks">0</span>)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 3: Layers / Macro Sequence View -->
+            <section class="tab-pane" id="view-layers">
+                <div class="content-panel" style="padding: 16px 20px;">
+                    <div class="card animate-card">
+                        <div class="card-header-group">
+                            <div class="card-title">Macro Layers</div>
+                            <div class="card-subtitle">Chain clicks and key combinations.</div>
+                        </div>
+                        <div style="padding: 24px; text-align: center; color: #64748b;">
+                            <div style="font-size: 16px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">Layer 1 & Layer 2 Active</div>
+                            <p style="font-size: 13px;">Layer 1: Rapid clicking (Active)</p>
+                            <p style="font-size: 13px; margin-top: 4px;">Layer 2: Key presses (Toggle in clicker tab)</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 4: Coordinate Target View -->
+            <section class="tab-pane" id="view-target">
+                <div class="content-panel" style="padding: 16px 20px;">
+                    <div class="card animate-card">
+                        <div class="card-header-group">
+                            <div class="card-title">Target Location</div>
+                            <div class="card-subtitle">Click at the cursor or a fixed point.</div>
+                        </div>
+                        <div class="setting-row">
+                            <div class="setting-info">
+                                <div class="setting-name">Position</div>
+                                <div class="setting-desc">Follow cursor or use fixed coordinates</div>
+                            </div>
+                            <div class="pill-button-group">
+                                <button class="segment-btn active" id="btn-loc-cursor">Follow Cursor</button>
+                                <button class="segment-btn" id="btn-loc-fixed">Fixed Coordinates</button>
+                            </div>
+                        </div>
+                        <div class="setting-row" id="row-coords" style="display: none;">
+                            <div class="setting-info">
+                                <div class="setting-name">Coordinates (X, Y)</div>
+                                <div class="setting-desc">Screen pixel location</div>
+                            </div>
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <span>X:</span>
+                                <input type="number" id="input-coord-x" class="custom-input" style="width: 75px; text-align: center;" value="0">
+                                <span>Y:</span>
+                                <input type="number" id="input-coord-y" class="custom-input" style="width: 75px; text-align: center;" value="0">
+                                <button class="action-btn" id="btn-pick-coord">
+                                    <span class="icon-slot" data-icon="crosshair"></span>
+                                    <span>Pick (2s)</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TAB 5: Quick Presets Menu -->
+            <section class="tab-pane" id="view-presets-menu">
+                <div class="content-panel" style="padding: 16px 20px;">
+                    <div class="card animate-card">
+                        <div class="card-header-group">
+                            <div class="card-title">Quick Presets</div>
+                            <div class="card-subtitle">Switch clicking profiles.</div>
+                        </div>
+                        <div id="quick-presets-container" style="display: flex; flex-direction: column; gap: 8px;">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Bottom Status Bar -->
+    <footer class="statusbar">
+        <div class="status-left">
+            <span class="status-indicator-dot" id="status-dot"></span>
+            <span id="status-text">No preset active</span>
+        </div>
+        <div class="status-right" id="status-version">v1.0.0</div>
+    </footer>
+
+    <!-- Dropdown Popovers -->
+    <div class="dropdown-popover" id="popover-unit">
+        <div class="dropdown-option selected" data-value="Second">Second</div>
+        <div class="dropdown-option" data-value="Millisecond">Millisecond</div>
+        <div class="dropdown-option" data-value="Minute">Minute</div>
+        <div class="dropdown-option" data-value="Hour">Hour</div>
+    </div>
+
+    <div class="dropdown-popover" id="popover-mode">
+        <div class="dropdown-option selected" data-value="Rate">Rate</div>
+        <div class="dropdown-option" data-value="Interval">Interval</div>
+    </div>
+
+    <div class="dropdown-popover" id="popover-trigger">
+        <div class="dropdown-option selected" data-value="Toggle">Toggle</div>
+        <div class="dropdown-option" data-value="Hold">Hold</div>
+    </div>
+
+    <!-- Toast Notification Banner for Updates -->
+    <div class="toast-popup" id="toast-notify">
+        <span class="toast-icon">✓</span>
+        <span class="toast-message" id="toast-msg">You are on the latest version (v1.0.0)!</span>
+    </div>
+
+    <script src="js/icons.js"></script>
+    <script src="js/sound.js"></script>
+    <script src="js/tester.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

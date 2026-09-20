@@ -1,0 +1,72 @@
+[
+  {
+    "id": "minecraft_pvp",
+    "name": "Minecraft PvP",
+    "desc": "16 CPS • 25% Randomization",
+    "cps": 16.0,
+    "rate_unit": "Second",
+    "rate_mode": "Rate",
+    "input_type": "Mouse",
+    "mouse_button": "LEFT",
+    "duty_cycle": 42.0,
+    "speed_randomization": 25.0,
+    "hotkey": "Ctrl+Y",
+    "trigger_mode": "Toggle"
+  },
+  {
+    "id": "jitter_human",
+    "name": "Jitter Click",
+    "desc": "14.5 CPS • 45% Randomization",
+    "cps": 14.5,
+    "rate_unit": "Second",
+    "rate_mode": "Rate",
+    "input_type": "Mouse",
+    "mouse_button": "LEFT",
+    "duty_cycle": 50.0,
+    "speed_randomization": 45.0,
+    "hotkey": "Ctrl+Y",
+    "trigger_mode": "Toggle"
+  },
+  {
+    "id": "roblox_auto",
+    "name": "Auto Clicker for Roblox",
+    "desc": "40 CPS • 15% Randomization",
+    "cps": 40.0,
+    "rate_unit": "Second",
+    "rate_mode": "Rate",
+    "input_type": "Mouse",
+    "mouse_button": "LEFT",
+    "duty_cycle": 45.0,
+    "speed_randomization": 15.0,
+    "hotkey": "Ctrl+Y",
+    "trigger_mode": "Toggle"
+  },
+  {
+    "id": "cookie_clicker",
+    "name": "Cookie Clicker",
+    "desc": "100 CPS • 35% Randomization",
+    "cps": 100.0,
+    "rate_unit": "Second",
+    "rate_mode": "Rate",
+    "input_type": "Mouse",
+    "mouse_button": "LEFT",
+    "duty_cycle": 45.0,
+    "speed_randomization": 35.0,
+    "hotkey": "Ctrl+Y",
+    "trigger_mode": "Toggle"
+  },
+  {
+    "id": "fastest",
+    "name": "Fastest",
+    "desc": "500 CPS • Constant",
+    "cps": 500.0,
+    "rate_unit": "Second",
+    "rate_mode": "Rate",
+    "input_type": "Mouse",
+    "mouse_button": "LEFT",
+    "duty_cycle": 50.0,
+    "speed_randomization": 0.0,
+    "hotkey": "Ctrl+Y",
+    "trigger_mode": "Toggle"
+  }
+]
